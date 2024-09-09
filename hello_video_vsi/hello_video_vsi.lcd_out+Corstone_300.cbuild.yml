@@ -1,0 +1,457 @@
+build:
+  generated-by: csolution version 2.2.1
+  solution: hello_video_vsi.csolution.yml
+  project: hello_video_vsi.cproject.yml
+  context: hello_video_vsi.lcd_out+Corstone_300
+  compiler: AC6
+  device: SSE-300-MPS3
+  device-pack: ARM::V2M_MPS3_SSE_300_BSP@1.5.0
+  processor:
+    dsp: on
+    fpu: dp
+    trustzone: off
+    core: Cortex-M55
+  packs:
+    - pack: ARM::CMSIS-Compiler@2.1.0
+      path: ${CMSIS_PACK_ROOT}/ARM/CMSIS-Compiler/2.1.0
+    - pack: ARM::CMSIS-DSP@1.15.0
+      path: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0
+    - pack: ARM::CMSIS-RTX@5.9.0
+      path: ${CMSIS_PACK_ROOT}/ARM/CMSIS-RTX/5.9.0
+    - pack: ARM::CMSIS@6.1.0
+      path: ${CMSIS_PACK_ROOT}/ARM/CMSIS/6.1.0
+    - pack: ARM::V2M_MPS3_SSE_300_BSP@1.5.0
+      path: ${CMSIS_PACK_ROOT}/ARM/V2M_MPS3_SSE_300_BSP/1.5.0
+  debug: on
+  misc:
+    ASM:
+      - -masm=auto
+    C:
+      - -std=gnu11
+      - -Wno-license-management
+      - -Wno-documentation
+      - -Wno-documentation-unknown-command
+      - -Wno-missing-noreturn
+      - -Wno-missing-prototypes
+      - -Wno-missing-variable-declarations
+      - -Wno-nonportable-include-path
+      - -Wno-packed
+      - -Wno-parentheses-equality
+      - -Wno-reserved-id-macro
+      - -Wno-reserved-identifier
+      - -Wno-unused-macros
+      - -fno-exceptions
+      - -fno-rtti
+      - -funsigned-char
+      - -fshort-enums
+      - -fshort-wchar
+      - -ffunction-sections
+      - -Wno-sign-conversion
+    CPP:
+      - -xc++
+      - -std=c++14
+      - -Wno-documentation
+      - -Wno-documentation-unknown-command
+      - -Wno-license-management
+      - -Wno-missing-noreturn
+      - -Wno-missing-prototypes
+      - -Wno-missing-variable-declarations
+      - -Wno-nonportable-include-path
+      - -Wno-packed
+      - -Wno-parentheses-equality
+      - -Wno-reserved-id-macro
+      - -Wno-reserved-identifier
+      - -Wno-unused-macros
+      - -fno-exceptions
+      - -fno-rtti
+      - -funsigned-char
+      - -fshort-enums
+      - -fshort-wchar
+      - -ffunction-sections
+      - -Wno-sign-conversion
+    Link:
+      - --map
+      - --load_addr_map_info
+      - --xref
+      - --callgraph
+      - --symbols
+      - --info sizes
+      - --info totals
+      - --info unused
+      - --info veneers
+      - --summary_stderr
+      - --info summarysizes
+      - --entry=Reset_Handler
+      - --strict
+      - --diag_suppress=6314,6848
+  define:
+    - CORSTONE300_FVP
+    - _RTE_
+  add-path:
+    - source/application
+    - source/micro_logger
+    - source/vsi
+    - source/vsi/video_driver
+    - source/hal/include
+    - source/hal/source/components/lcd/include
+    - source/hal/source/components/lcd/source
+    - source/hal/source/components/stdout/include
+    - source/hal/source/platform_pmu/include
+    - ../../CMSIS-CV/CMSIS-CV/Include
+    - ../../CMSIS-CV/CMSIS-CV/PrivateInclude
+    - source/hal/source/platform/mps3/include/sse-300
+    - source/hal/source/platform/mps3/include
+    - source/hal/source/platform/mps3/source
+    - RTE/CMSIS
+    - RTE/Device/SSE-300-MPS3
+    - RTE/_lcd_out_Corstone_300
+    - ${CMSIS_PACK_ROOT}/ARM/CMSIS-Compiler/2.1.0/include
+    - ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Include
+    - ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/PrivateInclude
+    - ${CMSIS_PACK_ROOT}/ARM/CMSIS-RTX/5.9.0/Include
+    - ${CMSIS_PACK_ROOT}/ARM/CMSIS/6.1.0/CMSIS/Core/Include
+    - ${CMSIS_PACK_ROOT}/ARM/CMSIS/6.1.0/CMSIS/Driver/Include
+    - ${CMSIS_PACK_ROOT}/ARM/CMSIS/6.1.0/CMSIS/RTOS2/Include
+    - ${CMSIS_PACK_ROOT}/ARM/V2M_MPS3_SSE_300_BSP/1.5.0/Board/Device_Definition
+    - ${CMSIS_PACK_ROOT}/ARM/V2M_MPS3_SSE_300_BSP/1.5.0/Board/Platform
+    - ${CMSIS_PACK_ROOT}/ARM/V2M_MPS3_SSE_300_BSP/1.5.0/CMSIS_Driver
+    - ${CMSIS_PACK_ROOT}/ARM/V2M_MPS3_SSE_300_BSP/1.5.0/CMSIS_Driver/Config
+    - ${CMSIS_PACK_ROOT}/ARM/V2M_MPS3_SSE_300_BSP/1.5.0/Device/Include
+  output-dirs:
+    intdir: tmp/hello_video_vsi/Corstone_300/lcd_out
+    outdir: out/hello_video_vsi/Corstone_300/lcd_out/AC6
+    rtedir: RTE
+  output:
+    - type: elf
+      file: hello_video_vsi.axf
+  components:
+    - component: ARM::CMSIS Driver:USART@1.0.0
+      condition: SSE-300-MPS3 USART
+      from-pack: ARM::V2M_MPS3_SSE_300_BSP@1.5.0
+      selected-by: ARM::CMSIS Driver:USART
+      files:
+        - file: ${CMSIS_PACK_ROOT}/ARM/V2M_MPS3_SSE_300_BSP/1.5.0/CMSIS_Driver/Driver_USART.c
+          category: source
+    - component: ARM::CMSIS-Compiler:CORE@1.1.0
+      condition: ARMCC CortexDevice
+      from-pack: ARM::CMSIS-Compiler@2.1.0
+      selected-by: ARM::CMSIS-Compiler:CORE
+      files:
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-Compiler/2.1.0/source/armcc/retarget_io.c
+          category: sourceC
+    - component: ARM::CMSIS-Compiler:STDOUT:Custom@1.1.0
+      condition: CORE
+      from-pack: ARM::CMSIS-Compiler@2.1.0
+      selected-by: ARM::CMSIS-Compiler:STDOUT:Custom
+    - component: ARM::CMSIS:CORE@6.1.0
+      condition: ARMv6_7_8-M Device
+      from-pack: ARM::CMSIS@6.1.0
+      selected-by: ARM::CMSIS:CORE
+    - component: ARM::CMSIS:DSP&Source@1.15.0
+      condition: CMSISCORE
+      from-pack: ARM::CMSIS-DSP@1.15.0
+      selected-by: ARM::CMSIS:DSP@1.15.0
+      files:
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/BasicMathFunctions/BasicMathFunctions.c
+          category: source
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/BasicMathFunctions/BasicMathFunctionsF16.c
+          category: source
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/BayesFunctions/BayesFunctions.c
+          category: source
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/BayesFunctions/BayesFunctionsF16.c
+          category: source
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/CommonTables/CommonTables.c
+          category: source
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/CommonTables/CommonTablesF16.c
+          category: source
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/ComplexMathFunctions/ComplexMathFunctions.c
+          category: source
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/ComplexMathFunctions/ComplexMathFunctionsF16.c
+          category: source
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/ControllerFunctions/ControllerFunctions.c
+          category: source
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/DistanceFunctions/DistanceFunctions.c
+          category: source
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/DistanceFunctions/DistanceFunctionsF16.c
+          category: source
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/FastMathFunctions/FastMathFunctions.c
+          category: source
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/FastMathFunctions/FastMathFunctionsF16.c
+          category: source
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/FilteringFunctions/FilteringFunctions.c
+          category: source
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/FilteringFunctions/FilteringFunctionsF16.c
+          category: source
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/InterpolationFunctions/InterpolationFunctions.c
+          category: source
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/InterpolationFunctions/InterpolationFunctionsF16.c
+          category: source
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/MatrixFunctions/MatrixFunctions.c
+          category: source
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/MatrixFunctions/MatrixFunctionsF16.c
+          category: source
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/QuaternionMathFunctions/QuaternionMathFunctions.c
+          category: source
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/SVMFunctions/SVMFunctions.c
+          category: source
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/SVMFunctions/SVMFunctionsF16.c
+          category: source
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/StatisticsFunctions/StatisticsFunctions.c
+          category: source
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/StatisticsFunctions/StatisticsFunctionsF16.c
+          category: source
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/SupportFunctions/SupportFunctions.c
+          category: source
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/SupportFunctions/SupportFunctionsF16.c
+          category: source
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/TransformFunctions/TransformFunctions.c
+          category: source
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/TransformFunctions/TransformFunctionsF16.c
+          category: source
+    - component: ARM::CMSIS:OS Tick:SysTick@1.0.5
+      condition: OS Tick SysTick
+      from-pack: ARM::CMSIS@6.1.0
+      selected-by: ARM::CMSIS:OS Tick:SysTick
+      files:
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS/6.1.0/CMSIS/RTOS2/Source/os_systick.c
+          category: sourceC
+    - component: ARM::CMSIS:RTOS2:Keil RTX5&Source@5.9.0
+      condition: RTX5
+      from-pack: ARM::CMSIS-RTX@5.9.0
+      selected-by: ARM::CMSIS:RTOS2:Keil RTX5&Source
+      files:
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-RTX/5.9.0/Source/GCC/irq_armv8mml.S
+          category: source
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-RTX/5.9.0/Source/rtx_delay.c
+          category: source
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-RTX/5.9.0/Source/rtx_evflags.c
+          category: source
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-RTX/5.9.0/Source/rtx_evr.c
+          category: source
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-RTX/5.9.0/Source/rtx_kernel.c
+          category: source
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-RTX/5.9.0/Source/rtx_lib.c
+          category: source
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-RTX/5.9.0/Source/rtx_memory.c
+          category: source
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-RTX/5.9.0/Source/rtx_mempool.c
+          category: source
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-RTX/5.9.0/Source/rtx_msgqueue.c
+          category: source
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-RTX/5.9.0/Source/rtx_mutex.c
+          category: source
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-RTX/5.9.0/Source/rtx_semaphore.c
+          category: source
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-RTX/5.9.0/Source/rtx_system.c
+          category: source
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-RTX/5.9.0/Source/rtx_thread.c
+          category: source
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-RTX/5.9.0/Source/rtx_timer.c
+          category: source
+        - file: RTE/CMSIS/RTX_Config.c
+          category: source
+          attr: config
+          version: 5.2.0
+        - file: RTE/CMSIS/RTX_Config.h
+          category: header
+          attr: config
+          version: 5.6.0
+    - component: ARM::Device:Definition@2.0.0
+      condition: SSE-300-MPS3 Device
+      from-pack: ARM::V2M_MPS3_SSE_300_BSP@1.5.0
+      selected-by: ARM::Device:Definition
+      files:
+        - file: ${CMSIS_PACK_ROOT}/ARM/V2M_MPS3_SSE_300_BSP/1.5.0/Board/Device_Definition/device_definition.c
+          category: source
+        - file: RTE/Device/SSE-300-MPS3/device_cfg.h
+          category: header
+          attr: config
+          version: 1.1.4
+    - component: ARM::Device:Native Driver:IO@1.1.0
+      condition: SSE-300-MPS3 Device
+      from-pack: ARM::V2M_MPS3_SSE_300_BSP@1.5.0
+      selected-by: ARM::Device:Native Driver:IO
+      files:
+        - file: ${CMSIS_PACK_ROOT}/ARM/V2M_MPS3_SSE_300_BSP/1.5.0/Device/Source/arm_mps3_io_drv.c
+          category: source
+    - component: ARM::Device:Native Driver:PPC@1.2.0
+      condition: SSE-300-MPS3 PPC
+      from-pack: ARM::V2M_MPS3_SSE_300_BSP@1.5.0
+      selected-by: ARM::Device:Native Driver:PPC
+      files:
+        - file: ${CMSIS_PACK_ROOT}/ARM/V2M_MPS3_SSE_300_BSP/1.5.0/Device/Source/Driver_SSE300_PPC.c
+          category: source
+        - file: ${CMSIS_PACK_ROOT}/ARM/V2M_MPS3_SSE_300_BSP/1.5.0/Device/Source/ppc_sse300_drv.c
+          category: source
+    - component: ARM::Device:Native Driver:SysCounter@1.1.0
+      condition: SSE-300-MPS3 Device
+      from-pack: ARM::V2M_MPS3_SSE_300_BSP@1.5.0
+      selected-by: ARM::Device:Native Driver:SysCounter
+      files:
+        - file: ${CMSIS_PACK_ROOT}/ARM/V2M_MPS3_SSE_300_BSP/1.5.0/Device/Source/syscounter_armv8-m_cntrl_drv.c
+          category: source
+        - file: ${CMSIS_PACK_ROOT}/ARM/V2M_MPS3_SSE_300_BSP/1.5.0/Device/Source/syscounter_armv8-m_read_drv.c
+          category: source
+    - component: ARM::Device:Native Driver:SysTimer@1.1.0
+      condition: SSE-300-MPS3 Device
+      from-pack: ARM::V2M_MPS3_SSE_300_BSP@1.5.0
+      selected-by: ARM::Device:Native Driver:SysTimer
+      files:
+        - file: ${CMSIS_PACK_ROOT}/ARM/V2M_MPS3_SSE_300_BSP/1.5.0/Device/Source/systimer_armv8-m_drv.c
+          category: source
+    - component: ARM::Device:Native Driver:Timeout@1.0.0
+      condition: SSE-300-MPS3 Systimer Syscounter
+      from-pack: ARM::V2M_MPS3_SSE_300_BSP@1.5.0
+      selected-by: ARM::Device:Native Driver:Timeout
+      files:
+        - file: ${CMSIS_PACK_ROOT}/ARM/V2M_MPS3_SSE_300_BSP/1.5.0/Device/Source/systimer_armv8-m_timeout.c
+          category: source
+    - component: ARM::Device:Native Driver:UART@1.1.0
+      condition: SSE-300-MPS3 Device
+      from-pack: ARM::V2M_MPS3_SSE_300_BSP@1.5.0
+      selected-by: ARM::Device:Native Driver:UART
+      files:
+        - file: ${CMSIS_PACK_ROOT}/ARM/V2M_MPS3_SSE_300_BSP/1.5.0/Device/Source/uart_cmsdk_drv.c
+          category: source
+    - component: ARM::Device:Startup&C Startup@2.0.0
+      condition: SSE-300-MPS3 Device
+      from-pack: ARM::V2M_MPS3_SSE_300_BSP@1.5.0
+      selected-by: ARM::Device:Startup&C Startup
+      files:
+        - file: RTE/Device/SSE-300-MPS3/startup_SSE300MPS3.c
+          category: source
+          attr: config
+          version: 1.1.1
+        - file: RTE/Device/SSE-300-MPS3/system_SSE300MPS3.c
+          category: source
+          attr: config
+          version: 1.1.1
+    - component: ARM::Device:USART Retarget@1.0.0
+      condition: SSE-300-MPS3 USART Retarget
+      from-pack: ARM::V2M_MPS3_SSE_300_BSP@1.5.0
+      selected-by: ARM::Device:USART Retarget
+      files:
+        - file: RTE/Device/SSE-300-MPS3/retarget.c
+          category: source
+          attr: config
+          version: 1.0.0
+  linker:
+    script: RTE/Device/SSE-300-MPS3/fvp_sse300_mps3_s.sct
+  groups:
+    - group: App
+      files:
+        - file: ./source/application/app.c
+          category: sourceC
+        - file: ./source/application/main.c
+          category: sourceC
+    - group: Video Driver
+      files:
+        - file: ./source/vsi/video_driver/video_drv.h
+          category: header
+        - file: ./source/vsi/video_driver/video_drv.c
+          category: sourceC
+    - group: Micro Logger
+      files:
+        - file: ./source/micro_logger/micro_logger.h
+          category: header
+        - file: ./source/micro_logger/micro_logger.c
+          category: sourceC
+    - group: HAL
+      files:
+        - file: ./source/hal/source/components/lcd/source/glcd_mps3/glcd_mps3.c
+          category: sourceC
+        - file: ./source/hal/source/components/lcd/source/lcd_img.c
+          category: sourceC
+        - file: ./source/hal/source/components/stdout/source/user_input.c
+          category: sourceC
+        - file: ./source/hal/source/hal.c
+          category: sourceC
+        - file: ./source/hal/source/hal_pmu.c
+          category: sourceC
+        - file: ./source/hal/source/platform/mps3/source/platform_drivers.c
+          category: sourceC
+        - file: ./source/hal/source/platform/mps3/source/timer_mps3.c
+          category: sourceC
+    - group: cmsiscv
+      files:
+        - file: ../../CMSIS-CV/CMSIS-CV/Source/arm_cv_common.c
+          category: sourceC
+        - file: ../../CMSIS-CV/CMSIS-CV/Source/FeatureDetection/arm_cannysobel.c
+          category: sourceC
+        - file: ../../CMSIS-CV/CMSIS-CV/Source/LinearFilters/arm_gaussian.c
+          category: sourceC
+        - file: ../../CMSIS-CV/CMSIS-CV/Source/LinearFilters/arm_sobel_vertical.c
+          category: sourceC
+        - file: ../../CMSIS-CV/CMSIS-CV/Source/LinearFilters/arm_sobel_horizontal.c
+          category: sourceC
+        - file: ../../CMSIS-CV/CMSIS-CV/Source/LinearFilters/arm_linear_common.c
+          category: sourceC
+        - file: ../../CMSIS-CV/CMSIS-CV/Source/LinearFilters/arm_gaussian_5x5.c
+          category: sourceC
+        - file: ../../CMSIS-CV/CMSIS-CV/Source/LinearFilters/arm_gaussian_7x7.c
+          category: sourceC
+        - file: ../../CMSIS-CV/CMSIS-CV/Source/LinearFilters/arm_gaussian_7x7_32.c
+          category: sourceC
+        - file: ../../CMSIS-CV/CMSIS-CV/Source/ColorTransforms/arm_yuv420_to_gray8.c
+          category: sourceC
+        - file: ../../CMSIS-CV/CMSIS-CV/Source/ColorTransforms/arm_bgr_8U3C_to_gray8.c
+          category: sourceC
+        - file: ../../CMSIS-CV/CMSIS-CV/Source/ColorTransforms/arm_gray8_to_rgb24.c
+          category: sourceC
+        - file: ../../CMSIS-CV/CMSIS-CV/Source/ColorTransforms/arm_bgr_8U3C_to_rgb24.c
+          category: sourceC
+        - file: ../../CMSIS-CV/CMSIS-CV/Source/ColorTransforms/arm_yuv420_to_rgb24.c
+          category: sourceC
+        - file: ../../CMSIS-CV/CMSIS-CV/Source/ColorTransforms/arm_rgb24_to_gray8.c
+          category: sourceC
+        - file: ../../CMSIS-CV/CMSIS-CV/Source/ImageTransforms/arm_crop_gray8.c
+          category: sourceC
+        - file: ../../CMSIS-CV/CMSIS-CV/Source/ImageTransforms/arm_crop_rgb24.c
+          category: sourceC
+        - file: ../../CMSIS-CV/CMSIS-CV/Source/ImageTransforms/arm_image_resize_bgr_8U3C_f32.c
+          category: sourceC
+        - file: ../../CMSIS-CV/CMSIS-CV/Source/ImageTransforms/arm_image_resize_gray8_f32.c
+          category: sourceC
+        - file: ../../CMSIS-CV/CMSIS-CV/Source/ImageTransforms/arm_image_resize_common_f32.c
+          category: sourceC
+        - file: ../../CMSIS-CV/CMSIS-CV/Source/ImageTransforms/arm_image_resize_bgr_8U3C_to_rgb24_f32.c
+          category: sourceC
+  constructed-files:
+    - file: RTE/_lcd_out_Corstone_300/RTE_Components.h
+      category: header
+  licenses:
+    - license: <unknown>
+      license-agreement: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/LICENSE
+      packs:
+        - pack: ARM::CMSIS-DSP@1.15.0
+      components:
+        - component: ARM::CMSIS:DSP&Source@1.15.0
+    - license: <unknown>
+      packs:
+        - pack: ARM::V2M_MPS3_SSE_300_BSP@1.5.0
+      components:
+        - component: ARM::CMSIS Driver:USART@1.0.0
+        - component: ARM::Device:Definition@2.0.0
+        - component: ARM::Device:Native Driver:IO@1.1.0
+        - component: ARM::Device:Native Driver:PPC@1.2.0
+        - component: ARM::Device:Native Driver:SysCounter@1.1.0
+        - component: ARM::Device:Native Driver:SysTimer@1.1.0
+        - component: ARM::Device:Native Driver:Timeout@1.0.0
+        - component: ARM::Device:Native Driver:UART@1.1.0
+        - component: ARM::Device:Startup&C Startup@2.0.0
+        - component: ARM::Device:USART Retarget@1.0.0
+    - license: Apache-2.0
+      packs:
+        - pack: ARM::CMSIS-Compiler@2.1.0
+        - pack: ARM::CMSIS-RTX@5.9.0
+        - pack: ARM::CMSIS@6.1.0
+      components:
+        - component: ::CMSIS Driver:USART(API)
+        - component: ::CMSIS-Compiler:STDOUT(API)
+        - component: ::CMSIS:OS Tick(API)
+        - component: ::CMSIS:RTOS2(API)
+        - component: ARM::CMSIS-Compiler:CORE@1.1.0
+        - component: ARM::CMSIS-Compiler:STDOUT:Custom@1.1.0
+        - component: ARM::CMSIS:CORE@6.1.0
+        - component: ARM::CMSIS:OS Tick:SysTick@1.0.5
+        - component: ARM::CMSIS:RTOS2:Keil RTX5&Source@5.9.0

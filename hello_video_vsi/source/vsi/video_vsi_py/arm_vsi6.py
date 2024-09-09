@@ -1,11 +1,11 @@
-# Copyright (c) 2021-2024 Arm Limited. All rights reserved.
+# Copyright (c) 2021-2023 Arm Limited. All rights reserved.
 
-# Virtual Streaming Interface instance 4 Python script
+# Virtual Streaming Interface instance 6 Python script
 
 ##@addtogroup arm_vsi_py_video
 #  @{
 #
-##@package arm_vsi4_video
+##@package arm_vsi6_video
 #Documentation for VSI peripherals module.
 #
 #More details.
@@ -15,17 +15,16 @@ import vsi_video
 
 ## Set verbosity level
 verbosity = logging.DEBUG
-#verbosity = logging.INFO
 #verbosity = logging.ERROR
 
 # [debugging] Verbosity settings
 level = { 10: "DEBUG",  20: "INFO",  30: "WARNING",  40: "ERROR" }
-logging.basicConfig(format='Py: VSI4: [%(levelname)s]\t%(message)s', level = verbosity)
+logging.basicConfig(format='Py: VSI6: [%(levelname)s]\t%(message)s', level = verbosity)
 logging.info("Verbosity level is set to " + level[verbosity])
 
 
 # Video Server configuration
-server_address = ('127.0.0.1', 6000)
+server_address = ('127.0.0.1', 6002)
 server_authkey = 'vsi_video'
 
 
@@ -201,4 +200,3 @@ def wrRegs(index, value):
 
 
 ## @}
-

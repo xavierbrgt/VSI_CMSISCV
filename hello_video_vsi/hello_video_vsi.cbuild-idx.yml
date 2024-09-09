@@ -1,0 +1,13 @@
+build-idx:
+  generated-by: csolution version 2.2.1
+  cdefault: cdefault.yml
+  csolution: hello_video_vsi.csolution.yml
+  cprojects:
+    - cproject: hello_video_vsi.cproject.yml
+  cbuilds:
+    - cbuild: hello_video_vsi.lcd_out+Corstone_300.cbuild.yml
+      project: hello_video_vsi
+      configuration: .lcd_out+Corstone_300
+    - cbuild: hello_video_vsi.lcd_out+Corstone_310.cbuild.yml
+      project: hello_video_vsi
+      configuration: .lcd_out+Corstone_310

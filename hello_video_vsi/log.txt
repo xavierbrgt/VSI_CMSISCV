@@ -1,0 +1,11 @@
+telnetterminal0: Listening for serial connection on port 5000
+telnetterminal2: Listening for serial connection on port 5001
+telnetterminal1: Listening for serial connection on port 5002
+telnetterminal5: Listening for serial connection on port 5003
+
+    Ethos-U rev 136b7d75 --- Apr 12 2023 13:56:52
+    (C) COPYRIGHT 2019-2023 Arm Limited
+    ALL RIGHTS RESERVED
+
+
+Info: /OSCI/SystemC: Simulation stopped by user.

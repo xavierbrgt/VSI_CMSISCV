@@ -25,6 +25,7 @@
 #endif
 
 #include <stdio.h>
+#include "cv/linear_filters.h"
 
 extern int stdout_init(void);
 extern void app_main(void *argument);
