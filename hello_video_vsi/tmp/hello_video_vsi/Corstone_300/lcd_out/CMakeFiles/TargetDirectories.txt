@@ -1,4 +1,0 @@
-C:/Users/xavbou01/AVH-VSI/hello_video_vsi/tmp/hello_video_vsi/Corstone_300/lcd_out/CMakeFiles/database.dir
-C:/Users/xavbou01/AVH-VSI/hello_video_vsi/tmp/hello_video_vsi/Corstone_300/lcd_out/CMakeFiles/hello_video_vsi.dir
-C:/Users/xavbou01/AVH-VSI/hello_video_vsi/tmp/hello_video_vsi/Corstone_300/lcd_out/CMakeFiles/edit_cache.dir
-C:/Users/xavbou01/AVH-VSI/hello_video_vsi/tmp/hello_video_vsi/Corstone_300/lcd_out/CMakeFiles/rebuild_cache.dir

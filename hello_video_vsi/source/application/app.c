@@ -33,6 +33,7 @@ limitations under the License.
 #include "cv/linear_filters.h"
 #include <stdlib.h>
 #include "cv/feature_detection.h"
+#include "cv/color_transforms.h"
 /* Video input characteristics */
 #define COLOR_BLACK  0
 #define IMAGE_WIDTH (192U)
@@ -42,11 +43,13 @@ limitations under the License.
 #define FRAME_RATE (30U)
 
 //#define INPUT_IMAGE "./samples/typing.mp4"  // Input file path
+//#define OUTPUT_IMAGE "./samples/typingout2.mp4"  // Input file path
 #define INPUT_IMAGE "./samples/glasses.bmp"  // Input file path
-#define OUTPUT_IMAGE "./samples/glassesout.png"  // Input file path
+#define OUTPUT_IMAGE "./samples/glassesout.bmp"  // Input file path
 
 static uint8_t ImageBuf[IMAGE_DATA_SIZE];   // Buffer for holding an input frame
 static uint8_t ImageBufOut[IMAGE_DATA_SIZE];
+//static q15_t Buffer_tmp[IMAGE_WIDTH*3];// = (q15_t*)(&ImageBuf[0] + 192*192 * 2);
 /*---------------------------------------------------------------------------
  * User application initialization
  *---------------------------------------------------------------------------*/
@@ -73,6 +76,7 @@ void app_run()
   hal_lcd_clear(COLOR_BLACK);
 
   /* Configure video driver for input */
+  //VIDEO_DRV_COLOR_YUV420
   //if (VideoDrv_Configure(VIDEO_DRV_IN0,  IMAGE_WIDTH, IMAGE_HEIGHT, VIDEO_DRV_COLOR_RGB888, FRAME_RATE) != VIDEO_DRV_OK) {
   if (VideoDrv_Configure(VIDEO_DRV_IN0,  IMAGE_WIDTH, IMAGE_HEIGHT, VIDEO_DRV_COLOR_GRAYSCALE8, FRAME_RATE) != VIDEO_DRV_OK) {
     log_error("Failed to configure video input\n");
@@ -89,19 +93,19 @@ void app_run()
     log_error("Failed to set buffer for video input\n");
     return;
   }
-  q15_t* Buffer_tmp = (q15_t*)malloc(arm_get_scratch_size_generic_15(IMAGE_WIDTH));
+  //q15_t* Buffer_tmp = (q15_t*)malloc(arm_get_scratch_size_generic_15(IMAGE_WIDTH));
   //q15_t* Buffer_tmp = (q15_t*)malloc(arm_cv_get_scratch_size_canny_sobel(IMAGE_WIDTH));
-  //q15_t* Buffer_tmp = (q15_t*)(&ImageBuf[0] + 192*192 * 2);
-  if(Buffer_tmp==NULL)
+  
+  /*if(Buffer_tmp==NULL)
   {
     printf("issue1\n");
-  }
+  }*/
   int border_type = ARM_CV_BORDER_NEAREST;
   uint8_t* imgBuffR = &ImageBuf[0] + 192*192*sizeof(uint8_t);
 
-  arm_cv_image_gray8_t output={(uint16_t)IMAGE_WIDTH,(uint16_t)IMAGE_HEIGHT,(uint8_t*)ImageBufOut};  
-  
-  if (VideoDrv_SetBuf(VIDEO_DRV_OUT0,  ImageBufOut, IMAGE_WIDTH*IMAGE_HEIGHT) != VIDEO_DRV_OK) {
+  //arm_cv_image_gray8_t outputcanny={(uint16_t)IMAGE_WIDTH,(uint16_t)IMAGE_HEIGHT,(uint8_t*)imgBuffR};  
+  //arm_cv_image_rgb24_t output={(uint16_t)IMAGE_WIDTH,(uint16_t)IMAGE_HEIGHT,(uint8_t*)ImageBufOut};  
+  if (VideoDrv_SetBuf(VIDEO_DRV_OUT0,  ImageBufOut, IMAGE_WIDTH*IMAGE_HEIGHT/*CHANNELS_IMAGE_DISPLAYED*/) != VIDEO_DRV_OK) {
     log_error("Failed to set buffer for video output\n");
     return;
   }
@@ -146,13 +150,11 @@ void app_run()
       log_error("Invalid frame.\n");
       break;
     }
-    //arm_cv_canny_edge_sobel(&input,&output, Buffer_tmp, 78,33);
-    arm_gaussian_filter_5x5_fixp(&input,&output, Buffer_tmp, border_type);   
-
-    VideoDrv_ReleaseFrame(VIDEO_DRV_IN0);    
-    
+    //arm_cv_canny_edge_sobel(&input,&outputcanny, Buffer_tmp, 78,33);
+    //arm_gaussian_filter_5x5_fixp(&input,&outputcanny, Buffer_tmp, border_type); 
+    //arm_gray8_to_rgb24(&input, &output); 
     hal_lcd_display_image(
-      ImageBufOut,
+      imgFrame,
       IMAGE_HEIGHT,
       IMAGE_WIDTH,
       1,
@@ -162,7 +164,8 @@ void app_run()
 
     /* Release input frame */
     outFrame = VideoDrv_GetFrameBuf(VIDEO_DRV_OUT0);
-    memcpy(outFrame, ImageBufOut, IMAGE_WIDTH*IMAGE_HEIGHT);
+    memcpy(outFrame, imgFrame, IMAGE_WIDTH*IMAGE_HEIGHT*3);
+    VideoDrv_ReleaseFrame(VIDEO_DRV_IN0); 
     VideoDrv_ReleaseFrame(VIDEO_DRV_OUT0);
     if (VideoDrv_StreamStart(VIDEO_DRV_OUT0, VIDEO_DRV_MODE_SINGLE) != VIDEO_DRV_OK) {
     log_error("Failed to start frame capture");
@@ -173,7 +176,7 @@ void app_run()
             break;
     }
   }
-  free(Buffer_tmp);
+  //free(Buffer_tmp);
   log_info("Video Stream stopped");
 
   /* De-initialize video interface */
