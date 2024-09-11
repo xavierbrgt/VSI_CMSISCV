@@ -45,11 +45,11 @@ limitations under the License.
 //#define INPUT_IMAGE "./samples/typing.mp4"  // Input file path
 //#define OUTPUT_IMAGE "./samples/typingout2.mp4"  // Input file path
 #define INPUT_IMAGE "./samples/glasses.bmp"  // Input file path
-#define OUTPUT_IMAGE "./samples/glassesout.bmp"  // Input file path
+#define OUTPUT_IMAGE "./samples/glassesout.jpg"  // Input file path
 
 static uint8_t ImageBuf[IMAGE_DATA_SIZE];   // Buffer for holding an input frame
 static uint8_t ImageBufOut[IMAGE_DATA_SIZE];
-//static q15_t Buffer_tmp[IMAGE_WIDTH*3];// = (q15_t*)(&ImageBuf[0] + 192*192 * 2);
+static q15_t Buffer_tmp[IMAGE_WIDTH*3];// = (q15_t*)(&ImageBuf[0] + 192*192 * 2);
 /*---------------------------------------------------------------------------
  * User application initialization
  *---------------------------------------------------------------------------*/
@@ -83,13 +83,13 @@ void app_run()
     return;
   }
 
-  if (VideoDrv_Configure(VIDEO_DRV_OUT0,  IMAGE_WIDTH, IMAGE_HEIGHT, VIDEO_DRV_COLOR_GRAYSCALE8, FRAME_RATE) != VIDEO_DRV_OK) {
+  if (VideoDrv_Configure(VIDEO_DRV_OUT0,  IMAGE_WIDTH, IMAGE_HEIGHT, VIDEO_DRV_COLOR_RGB888, FRAME_RATE) != VIDEO_DRV_OK) {
     log_error("Failed to configure video input\n");
     return;
   }
 
   /* Set input video buffer */
-  if (VideoDrv_SetBuf(VIDEO_DRV_IN0,  ImageBuf, IMAGE_WIDTH*IMAGE_HEIGHT/*CHANNELS_IMAGE_DISPLAYED*/) != VIDEO_DRV_OK) {
+  if (VideoDrv_SetBuf(VIDEO_DRV_IN0, ImageBufOut, IMAGE_WIDTH*IMAGE_HEIGHT/*CHANNELS_IMAGE_DISPLAYED*/) != VIDEO_DRV_OK) {
     log_error("Failed to set buffer for video input\n");
     return;
   }
@@ -103,9 +103,9 @@ void app_run()
   int border_type = ARM_CV_BORDER_NEAREST;
   uint8_t* imgBuffR = &ImageBuf[0] + 192*192*sizeof(uint8_t);
 
-  //arm_cv_image_gray8_t outputcanny={(uint16_t)IMAGE_WIDTH,(uint16_t)IMAGE_HEIGHT,(uint8_t*)imgBuffR};  
-  //arm_cv_image_rgb24_t output={(uint16_t)IMAGE_WIDTH,(uint16_t)IMAGE_HEIGHT,(uint8_t*)ImageBufOut};  
-  if (VideoDrv_SetBuf(VIDEO_DRV_OUT0,  ImageBufOut, IMAGE_WIDTH*IMAGE_HEIGHT/*CHANNELS_IMAGE_DISPLAYED*/) != VIDEO_DRV_OK) {
+  arm_cv_image_gray8_t outputcanny={(uint16_t)IMAGE_WIDTH,(uint16_t)IMAGE_HEIGHT,(uint8_t*)imgBuffR};  
+  arm_cv_image_rgb24_t output={(uint16_t)IMAGE_WIDTH,(uint16_t)IMAGE_HEIGHT,(uint8_t*)ImageBufOut};  
+  if (VideoDrv_SetBuf(VIDEO_DRV_OUT0, ImageBuf, IMAGE_WIDTH*IMAGE_HEIGHT*CHANNELS_IMAGE_DISPLAYED) != VIDEO_DRV_OK) {
     log_error("Failed to set buffer for video output\n");
     return;
   }
@@ -150,22 +150,23 @@ void app_run()
       log_error("Invalid frame.\n");
       break;
     }
-    //arm_cv_canny_edge_sobel(&input,&outputcanny, Buffer_tmp, 78,33);
+    arm_cv_canny_edge_sobel(&input,&outputcanny, Buffer_tmp, 78,33);
     //arm_gaussian_filter_5x5_fixp(&input,&outputcanny, Buffer_tmp, border_type); 
-    //arm_gray8_to_rgb24(&input, &output); 
+
     hal_lcd_display_image(
-      imgFrame,
+      imgBuffR,
       IMAGE_HEIGHT,
       IMAGE_WIDTH,
       1,
       0,
       0,
       dataPsnImgDownscaleFactor);
+    VideoDrv_ReleaseFrame(VIDEO_DRV_IN0);    
+    arm_gray8_to_rgb24(&outputcanny, &output); 
 
     /* Release input frame */
     outFrame = VideoDrv_GetFrameBuf(VIDEO_DRV_OUT0);
-    memcpy(outFrame, imgFrame, IMAGE_WIDTH*IMAGE_HEIGHT*3);
-    VideoDrv_ReleaseFrame(VIDEO_DRV_IN0); 
+    memcpy(outFrame, ImageBufOut, IMAGE_WIDTH*IMAGE_HEIGHT*3);
     VideoDrv_ReleaseFrame(VIDEO_DRV_OUT0);
     if (VideoDrv_StreamStart(VIDEO_DRV_OUT0, VIDEO_DRV_MODE_SINGLE) != VIDEO_DRV_OK) {
     log_error("Failed to start frame capture");
