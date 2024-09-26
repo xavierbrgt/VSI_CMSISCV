@@ -42,10 +42,10 @@ limitations under the License.
 #define IMAGE_DATA_SIZE (IMAGE_WIDTH*IMAGE_HEIGHT*CHANNELS_IMAGE_DISPLAYED)
 #define FRAME_RATE (30U)
 
-#define INPUT_IMAGE "./samples/typing.mp4"  // Input file path
-#define OUTPUT_IMAGE "./samples/typingout.mp4"  // Input file path
-//#define INPUT_IMAGE "./samples/glasses.bmp"  // Input file path
-//#define OUTPUT_IMAGE "glassesout.jpg"  // Input file path
+//#define INPUT_IMAGE "./samples/typing.mp4"  // Input file path
+//#define OUTPUT_IMAGE "./samples/typingout.mp4"  // Input file path
+#define INPUT_IMAGE "./samples/glasses.bmp"  // Input file path
+#define OUTPUT_IMAGE "./samples/glassesout.bmp"  // Input file path
 
 static uint8_t ImageBuf[IMAGE_DATA_SIZE];   // Buffer for holding an input frame
 static uint8_t ImageBufOut[IMAGE_DATA_SIZE];
