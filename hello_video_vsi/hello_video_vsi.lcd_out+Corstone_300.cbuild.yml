@@ -14,8 +14,6 @@ build:
   packs:
     - pack: ARM::CMSIS-Compiler@2.1.0
       path: ${CMSIS_PACK_ROOT}/ARM/CMSIS-Compiler/2.1.0
-    - pack: ARM::CMSIS-DSP@1.15.0
-      path: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0
     - pack: ARM::CMSIS-RTX@5.9.0
       path: ${CMSIS_PACK_ROOT}/ARM/CMSIS-RTX/5.9.0
     - pack: ARM::CMSIS@6.1.0
@@ -97,8 +95,6 @@ build:
     - source/hal/source/components/lcd/source
     - source/hal/source/components/stdout/include
     - source/hal/source/platform_pmu/include
-    - ../../CMSIS-CV/CMSIS-CV/Include
-    - ../../CMSIS-CV/CMSIS-CV/PrivateInclude
     - source/hal/source/platform/mps3/include/sse-300
     - source/hal/source/platform/mps3/include
     - source/hal/source/platform/mps3/source
@@ -106,8 +102,6 @@ build:
     - RTE/Device/SSE-300-MPS3
     - RTE/_lcd_out_Corstone_300
     - ${CMSIS_PACK_ROOT}/ARM/CMSIS-Compiler/2.1.0/include
-    - ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Include
-    - ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/PrivateInclude
     - ${CMSIS_PACK_ROOT}/ARM/CMSIS-RTX/5.9.0/Include
     - ${CMSIS_PACK_ROOT}/ARM/CMSIS/6.1.0/CMSIS/Core/Include
     - ${CMSIS_PACK_ROOT}/ARM/CMSIS/6.1.0/CMSIS/Driver/Include
@@ -147,67 +141,6 @@ build:
       condition: ARMv6_7_8-M Device
       from-pack: ARM::CMSIS@6.1.0
       selected-by: ARM::CMSIS:CORE
-    - component: ARM::CMSIS:DSP&Source@1.15.0
-      condition: CMSISCORE
-      from-pack: ARM::CMSIS-DSP@1.15.0
-      selected-by: ARM::CMSIS:DSP@1.15.0
-      files:
-        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/BasicMathFunctions/BasicMathFunctions.c
-          category: source
-        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/BasicMathFunctions/BasicMathFunctionsF16.c
-          category: source
-        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/BayesFunctions/BayesFunctions.c
-          category: source
-        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/BayesFunctions/BayesFunctionsF16.c
-          category: source
-        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/CommonTables/CommonTables.c
-          category: source
-        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/CommonTables/CommonTablesF16.c
-          category: source
-        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/ComplexMathFunctions/ComplexMathFunctions.c
-          category: source
-        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/ComplexMathFunctions/ComplexMathFunctionsF16.c
-          category: source
-        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/ControllerFunctions/ControllerFunctions.c
-          category: source
-        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/DistanceFunctions/DistanceFunctions.c
-          category: source
-        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/DistanceFunctions/DistanceFunctionsF16.c
-          category: source
-        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/FastMathFunctions/FastMathFunctions.c
-          category: source
-        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/FastMathFunctions/FastMathFunctionsF16.c
-          category: source
-        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/FilteringFunctions/FilteringFunctions.c
-          category: source
-        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/FilteringFunctions/FilteringFunctionsF16.c
-          category: source
-        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/InterpolationFunctions/InterpolationFunctions.c
-          category: source
-        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/InterpolationFunctions/InterpolationFunctionsF16.c
-          category: source
-        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/MatrixFunctions/MatrixFunctions.c
-          category: source
-        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/MatrixFunctions/MatrixFunctionsF16.c
-          category: source
-        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/QuaternionMathFunctions/QuaternionMathFunctions.c
-          category: source
-        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/SVMFunctions/SVMFunctions.c
-          category: source
-        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/SVMFunctions/SVMFunctionsF16.c
-          category: source
-        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/StatisticsFunctions/StatisticsFunctions.c
-          category: source
-        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/StatisticsFunctions/StatisticsFunctionsF16.c
-          category: source
-        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/SupportFunctions/SupportFunctions.c
-          category: source
-        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/SupportFunctions/SupportFunctionsF16.c
-          category: source
-        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/TransformFunctions/TransformFunctions.c
-          category: source
-        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/TransformFunctions/TransformFunctionsF16.c
-          category: source
     - component: ARM::CMSIS:OS Tick:SysTick@1.0.5
       condition: OS Tick SysTick
       from-pack: ARM::CMSIS@6.1.0
@@ -372,60 +305,10 @@ build:
           category: sourceC
         - file: ./source/hal/source/platform/mps3/source/timer_mps3.c
           category: sourceC
-    - group: cmsiscv
-      files:
-        - file: ../../CMSIS-CV/CMSIS-CV/Source/arm_cv_common.c
-          category: sourceC
-        - file: ../../CMSIS-CV/CMSIS-CV/Source/FeatureDetection/arm_cannysobel.c
-          category: sourceC
-        - file: ../../CMSIS-CV/CMSIS-CV/Source/LinearFilters/arm_gaussian.c
-          category: sourceC
-        - file: ../../CMSIS-CV/CMSIS-CV/Source/LinearFilters/arm_sobel_vertical.c
-          category: sourceC
-        - file: ../../CMSIS-CV/CMSIS-CV/Source/LinearFilters/arm_sobel_horizontal.c
-          category: sourceC
-        - file: ../../CMSIS-CV/CMSIS-CV/Source/LinearFilters/arm_linear_common.c
-          category: sourceC
-        - file: ../../CMSIS-CV/CMSIS-CV/Source/LinearFilters/arm_gaussian_5x5.c
-          category: sourceC
-        - file: ../../CMSIS-CV/CMSIS-CV/Source/LinearFilters/arm_gaussian_7x7.c
-          category: sourceC
-        - file: ../../CMSIS-CV/CMSIS-CV/Source/LinearFilters/arm_gaussian_7x7_32.c
-          category: sourceC
-        - file: ../../CMSIS-CV/CMSIS-CV/Source/ColorTransforms/arm_yuv420_to_gray8.c
-          category: sourceC
-        - file: ../../CMSIS-CV/CMSIS-CV/Source/ColorTransforms/arm_bgr_8U3C_to_gray8.c
-          category: sourceC
-        - file: ../../CMSIS-CV/CMSIS-CV/Source/ColorTransforms/arm_gray8_to_rgb24.c
-          category: sourceC
-        - file: ../../CMSIS-CV/CMSIS-CV/Source/ColorTransforms/arm_bgr_8U3C_to_rgb24.c
-          category: sourceC
-        - file: ../../CMSIS-CV/CMSIS-CV/Source/ColorTransforms/arm_yuv420_to_rgb24.c
-          category: sourceC
-        - file: ../../CMSIS-CV/CMSIS-CV/Source/ColorTransforms/arm_rgb24_to_gray8.c
-          category: sourceC
-        - file: ../../CMSIS-CV/CMSIS-CV/Source/ImageTransforms/arm_crop_gray8.c
-          category: sourceC
-        - file: ../../CMSIS-CV/CMSIS-CV/Source/ImageTransforms/arm_crop_rgb24.c
-          category: sourceC
-        - file: ../../CMSIS-CV/CMSIS-CV/Source/ImageTransforms/arm_image_resize_bgr_8U3C_f32.c
-          category: sourceC
-        - file: ../../CMSIS-CV/CMSIS-CV/Source/ImageTransforms/arm_image_resize_gray8_f32.c
-          category: sourceC
-        - file: ../../CMSIS-CV/CMSIS-CV/Source/ImageTransforms/arm_image_resize_common_f32.c
-          category: sourceC
-        - file: ../../CMSIS-CV/CMSIS-CV/Source/ImageTransforms/arm_image_resize_bgr_8U3C_to_rgb24_f32.c
-          category: sourceC
   constructed-files:
     - file: RTE/_lcd_out_Corstone_300/RTE_Components.h
       category: header
   licenses:
-    - license: <unknown>
-      license-agreement: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/LICENSE
-      packs:
-        - pack: ARM::CMSIS-DSP@1.15.0
-      components:
-        - component: ARM::CMSIS:DSP&Source@1.15.0
     - license: <unknown>
       packs:
         - pack: ARM::V2M_MPS3_SSE_300_BSP@1.5.0

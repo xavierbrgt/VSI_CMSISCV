@@ -25,8 +25,6 @@ project:
     - ./source/hal/source/components/lcd/source/
     - ./source/hal/source/components/stdout/include/
     - ./source/hal/source/platform_pmu/include/
-    - ../../CMSIS-CV/CMSIS-CV/Include
-    - ../../CMSIS-CV/CMSIS-CV/PrivateInclude
 
   setups:
     - setup: Corstone_300
@@ -80,29 +78,6 @@ project:
           for-context:
            - +Corstone_300
            - +Corstone_310
-    - group: cmsiscv
-      files:
-        - file: ../../CMSIS-CV/CMSIS-CV/Source/arm_cv_common.c
-        - file: ../../CMSIS-CV/CMSIS-CV/Source/FeatureDetection/arm_cannysobel.c  
-        - file: ../../CMSIS-CV/CMSIS-CV/Source/LinearFilters/arm_gaussian.c
-        - file: ../../CMSIS-CV/CMSIS-CV/Source/LinearFilters/arm_sobel_vertical.c
-        - file: ../../CMSIS-CV/CMSIS-CV/Source/LinearFilters/arm_sobel_horizontal.c
-        - file: ../../CMSIS-CV/CMSIS-CV/Source/LinearFilters/arm_linear_common.c
-        - file: ../../CMSIS-CV/CMSIS-CV/Source/LinearFilters/arm_gaussian_5x5.c
-        - file: ../../CMSIS-CV/CMSIS-CV/Source/LinearFilters/arm_gaussian_7x7.c
-        - file: ../../CMSIS-CV/CMSIS-CV/Source/LinearFilters/arm_gaussian_7x7_32.c
-        - file: ../../CMSIS-CV/CMSIS-CV/Source/ColorTransforms/arm_yuv420_to_gray8.c
-        - file: ../../CMSIS-CV/CMSIS-CV/Source/ColorTransforms/arm_bgr_8U3C_to_gray8.c
-        - file: ../../CMSIS-CV/CMSIS-CV/Source/ColorTransforms/arm_gray8_to_rgb24.c
-        - file: ../../CMSIS-CV/CMSIS-CV/Source/ColorTransforms/arm_bgr_8U3C_to_rgb24.c
-        - file: ../../CMSIS-CV/CMSIS-CV/Source/ColorTransforms/arm_yuv420_to_rgb24.c
-        - file: ../../CMSIS-CV/CMSIS-CV/Source/ColorTransforms/arm_rgb24_to_gray8.c
-        - file: ../../CMSIS-CV/CMSIS-CV/Source/ImageTransforms/arm_crop_gray8.c
-        - file: ../../CMSIS-CV/CMSIS-CV/Source/ImageTransforms/arm_crop_rgb24.c
-        - file: ../../CMSIS-CV/CMSIS-CV/Source/ImageTransforms/arm_image_resize_bgr_8U3C_f32.c
-        - file: ../../CMSIS-CV/CMSIS-CV/Source/ImageTransforms/arm_image_resize_gray8_f32.c
-        - file: ../../CMSIS-CV/CMSIS-CV/Source/ImageTransforms/arm_image_resize_common_f32.c
-        - file: ../../CMSIS-CV/CMSIS-CV/Source/ImageTransforms/arm_image_resize_bgr_8U3C_to_rgb24_f32.c
 
   components:
     - component: ARM::CMSIS:CORE
@@ -120,4 +95,3 @@ project:
     - component: ARM::Device:Native Driver:UART
     - component: ARM::Device:Startup&C Startup
     - component: ARM::Device:USART Retarget
-    - component: ARM::CMSIS:DSP@1.15.0

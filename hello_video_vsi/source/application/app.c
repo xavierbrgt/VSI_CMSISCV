@@ -30,15 +30,15 @@ limitations under the License.
 #include "video_drv.h"        // Video Driver API
 #include "hal.h"              // Device HAL, here for LCD access
 
-#include "cv/linear_filters.h"
+//#include "cv/linear_filters.h"
 #include <stdlib.h>
-#include "cv/feature_detection.h"
-#include "cv/color_transforms.h"
+//#include "cv/feature_detection.h"
+//#include "cv/color_transforms.h"
 /* Video input characteristics */
 #define COLOR_BLACK  0
 #define IMAGE_WIDTH (192U)
 #define IMAGE_HEIGHT (192U)
-#define CHANNELS_IMAGE_DISPLAYED (3U)
+#define CHANNELS_IMAGE_DISPLAYED (1U)
 #define IMAGE_DATA_SIZE (IMAGE_WIDTH*IMAGE_HEIGHT*CHANNELS_IMAGE_DISPLAYED)
 #define FRAME_RATE (30U)
 
@@ -49,7 +49,6 @@ limitations under the License.
 
 static uint8_t ImageBuf[IMAGE_DATA_SIZE];   // Buffer for holding an input frame
 static uint8_t ImageBufOut[IMAGE_DATA_SIZE];
-//static q15_t Buffer_tmp[IMAGE_WIDTH*3];// = (q15_t*)(&ImageBuf[0] + 192*192 * 2);
 /*---------------------------------------------------------------------------
  * User application initialization
  *---------------------------------------------------------------------------*/
@@ -76,8 +75,6 @@ void app_run()
   hal_lcd_clear(COLOR_BLACK);
 
   /* Configure video driver for input */
-  //VIDEO_DRV_COLOR_YUV420
-  //if (VideoDrv_Configure(VIDEO_DRV_IN0,  IMAGE_WIDTH, IMAGE_HEIGHT, VIDEO_DRV_COLOR_RGB888, FRAME_RATE) != VIDEO_DRV_OK) {
   if (VideoDrv_Configure(VIDEO_DRV_IN0,  IMAGE_WIDTH, IMAGE_HEIGHT, VIDEO_DRV_COLOR_GRAYSCALE8, FRAME_RATE) != VIDEO_DRV_OK) {
     log_error("Failed to configure video input\n");
     return;
@@ -89,23 +86,12 @@ void app_run()
   }
 
   /* Set input video buffer */
-  if (VideoDrv_SetBuf(VIDEO_DRV_IN0,  ImageBuf, IMAGE_WIDTH*IMAGE_HEIGHT/*CHANNELS_IMAGE_DISPLAYED*/) != VIDEO_DRV_OK) {
+  if (VideoDrv_SetBuf(VIDEO_DRV_IN0,  ImageBuf, IMAGE_WIDTH*IMAGE_HEIGHT*CHANNELS_IMAGE_DISPLAYED) != VIDEO_DRV_OK) {
     log_error("Failed to set buffer for video input\n");
     return;
   }
-  //q15_t* Buffer_tmp = (q15_t*)malloc(arm_get_scratch_size_generic_15(IMAGE_WIDTH));
-  //q15_t* Buffer_tmp = (q15_t*)malloc(arm_cv_get_scratch_size_canny_sobel(IMAGE_WIDTH));
-  
-  /*if(Buffer_tmp==NULL)
-  {
-    printf("issue1\n");
-  }*/
-  int border_type = ARM_CV_BORDER_NEAREST;
-  uint8_t* imgBuffR = &ImageBuf[0] + 192*192*sizeof(uint8_t);
 
-  //arm_cv_image_gray8_t outputcanny={(uint16_t)IMAGE_WIDTH,(uint16_t)IMAGE_HEIGHT,(uint8_t*)imgBuffR};  
-  //arm_cv_image_rgb24_t output={(uint16_t)IMAGE_WIDTH,(uint16_t)IMAGE_HEIGHT,(uint8_t*)ImageBufOut};  
-  if (VideoDrv_SetBuf(VIDEO_DRV_OUT0,  ImageBufOut, IMAGE_WIDTH*IMAGE_HEIGHT/*CHANNELS_IMAGE_DISPLAYED*/) != VIDEO_DRV_OK) {
+  if (VideoDrv_SetBuf(VIDEO_DRV_OUT0,  ImageBufOut, IMAGE_WIDTH*IMAGE_HEIGHT*CHANNELS_IMAGE_DISPLAYED) != VIDEO_DRV_OK) {
     log_error("Failed to set buffer for video output\n");
     return;
   }
@@ -145,14 +131,10 @@ void app_run()
 
     /* Get input video frame buffer */
     imgFrame = VideoDrv_GetFrameBuf(VIDEO_DRV_IN0);
-    arm_cv_image_gray8_t input={(uint16_t)IMAGE_WIDTH,(uint16_t)IMAGE_HEIGHT,(uint8_t*)imgFrame};
     if (imgFrame == NULL ) {
       log_error("Invalid frame.\n");
       break;
     }
-    //arm_cv_canny_edge_sobel(&input,&outputcanny, Buffer_tmp, 78,33);
-    //arm_gaussian_filter_5x5_fixp(&input,&outputcanny, Buffer_tmp, border_type); 
-    //arm_gray8_to_rgb24(&input, &output); 
     hal_lcd_display_image(
       imgFrame,
       IMAGE_HEIGHT,
