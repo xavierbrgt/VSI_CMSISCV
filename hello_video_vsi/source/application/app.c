@@ -146,7 +146,7 @@ void app_run()
 
     /* Release input frame */
     outFrame = VideoDrv_GetFrameBuf(VIDEO_DRV_OUT0);
-    memcpy(outFrame, imgFrame, IMAGE_WIDTH*IMAGE_HEIGHT*3);
+    memcpy(outFrame, imgFrame, IMAGE_WIDTH*IMAGE_HEIGHT*CHANNELS_IMAGE_DISPLAYED);
     VideoDrv_ReleaseFrame(VIDEO_DRV_IN0); 
     VideoDrv_ReleaseFrame(VIDEO_DRV_OUT0);
     if (VideoDrv_StreamStart(VIDEO_DRV_OUT0, VIDEO_DRV_MODE_SINGLE) != VIDEO_DRV_OK) {
